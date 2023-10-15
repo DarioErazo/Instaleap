@@ -1,46 +1,46 @@
 import os
-import uuid 
-import json as json_alias
+import uuid
+from typing import Dict, Tuple
+import json
 from datetime import datetime, timedelta
 import requests 
 from constants import (
     INSTALEAP_DOMAIN, 
     JOB_PAYLOAD, 
     SLOT_PAYLOAD, 
-    APY_KEY,
-    DETAILS_JOB
+    APY_KEY
 )
 
+API_TOKEN_KEY = os.environ.get(APY_KEY)
 
-def get_avaibility():
-
+def get_availability() -> Dict:
+    """Post to view availe slots"""
     url = f"{INSTALEAP_DOMAIN}/jobs/availability/v2"
 
     headers = {
-        "x-api-key": os.environ.get(APY_KEY)
+        "x-api-key": API_TOKEN_KEY
     }
 
     times_to_slots = {
         "start": datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ"),
         "end": (datetime.now() + timedelta(days=7)).strftime("%Y-%m-%dT%H:%M:%SZ"),
     }
+
     SLOT_PAYLOAD.update(times_to_slots)
 
     response = requests.post(url, json=SLOT_PAYLOAD, headers=headers)
-    print(response)
     response.raise_for_status()
-    # TODO: control de excepciones
-
+    #TODO: CONTROL DE EXCEPTIONS
     return response.json()
 
-def create_job(slot_id):
-
+def create_job(slot_id: str) -> Dict:
+    """Create job using a slot id"""
     url = f"{INSTALEAP_DOMAIN}/jobs"
 
     try:
 
         headers = {
-            "x-api-key": os.environ.get(APY_KEY)
+            "x-api-key": API_TOKEN_KEY
         }
 
         slot_info = {
@@ -65,14 +65,14 @@ def create_job(slot_id):
     except Exception as err:
         print(f"Error desconocido: {err}")
 
-def details_job(id):
-
+def details_job(id: str) -> Dict:
+    """Get details job using id"""
     url = f"{INSTALEAP_DOMAIN}/jobs/{id}"
 
     try:
 
         headers = {
-            "x-api-key": os.environ.get(APY_KEY)
+            "x-api-key": API_TOKEN_KEY
         }
     
         response = requests.get(url, headers=headers)
@@ -96,32 +96,32 @@ def details_job(id):
         print(f"Error desconocido: {err}")
 
 
-def update_json(amount, job_data):
+#TODO: LLEVAR A UN ARCHIVO DE UTILS
+def make_body(amount: str, job_data: str) -> Tuple[Dict, str]:
+    """Build json to update pyment Job"""
     data = job_data.replace("'", '"').replace("None", '"None"')
-    json_data = json_alias.loads(data)
-    job_id = json_data["id"]   
-    del json_data['invoice']
-    del json_data['id']    
-    if not amount:
-        # El campo "amount" está vacío, puedes manejar esto como desees
-        print("El campo 'amount' está vacío. Por tanto no se actualizaran valores." )
-    else:
-        amount = int(amount)
-        if 'payment' in json_data:
-            json_data['payment']['value'] = amount
+    json_data = json.loads(data)
+    job_id = json_data.pop("id")
+    json_data.pop("invoice")
+    json_data["payment"]["value"] = int(amount)
     return job_id, json_data
 
-def update_job(job_id, data_json):
+def update_job(payload: str, new_amount: int) -> Dict:
+    """Update payment Job"""
+    job_id, json_body = make_body(
+        amount=new_amount, 
+        job_data=payload
+    )
 
     url = f"{INSTALEAP_DOMAIN}/jobs/{job_id}/payment_info"
 
     try:
 
         headers = {
-            "x-api-key": os.environ.get(APY_KEY)
+            "x-api-key": API_TOKEN_KEY
         }
     
-        response = requests.put(url, json=data_json, headers=headers)
+        response = requests.put(url, json=json_body, headers=headers)
         response.raise_for_status()
         return response.json()
     except requests.exceptions.HTTPError as err:
@@ -134,4 +134,3 @@ def update_job(job_id, data_json):
         print(f"Error en el método HTTP: {err}")
     except Exception as err:
         print(f"Error desconocido: {err}")
-
