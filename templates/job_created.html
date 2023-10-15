@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lista de trabajos</title>
+</head>
+<body>
+    <h1>Lista de trabajos</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Job ID</th>
+                <th>Message</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+                <tr>
+                    <td>{{ data.job_id }}</td>
+                    <td>{{ data.message }}</td>
+                    <td>
+                        <form method="GET" action="/jobs/details/{{ data.job_id }}">
+                            <button type="submit">View Details</button>
+                        </form>
+                    </td>
+                </tr>
+        </tbody>
+    </table>
+</body>
+</html>

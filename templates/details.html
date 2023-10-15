@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Detalles del Trabajo</title>
+</head>
+<body>
+    <h1>Detalles del Trabajo</h1>
+    
+    <h2>Información General</h2>
+    <p><strong>Cliente ID:</strong> {{ data.client_id }}</p>
+    <p><strong>Fecha de Creación:</strong> {{ data.created_at }}</p>
+    <p><strong>Estado:</strong> {{ data.state }}</p>
+    
+    <h2>Recogida y Entrega</h2>
+    <p><strong>Recogido con:</strong> {{ data.collect_with.method }} ({{ data.collect_with.payment.amount }} {{ data.collect_with.payment.currency }})</p>
+    <p><strong>Inicio:</strong> {{ data.start_time }}</p>
+    <p><strong>Fin:</strong> {{ data.end_time }}</p>
+    
+    <h2>Destino</h2>
+    <p><strong>Dirección:</strong> {{ data.destination.address }}</p>
+    <p><strong>Coordenadas:</strong> Lat: {{ data.destination.coordinates.lat }}, Lng: {{ data.destination.coordinates.lng }}</p>
+
+    <h2>Productos</h2>
+    <p><strong>Cantidad de Productos:</strong> {{ data.total_items }}</p>
+    <ul>
+        {% for item in items %}
+            <li>
+                <strong>Nombre:</strong> {{ item.name }}<br>
+                <strong>Categoría:</strong> {{ item.attributes.category }}<br>
+                <strong>Precio Unitario:</strong> {{ item.presentation.price.amount }} {{ item.presentation.price.currency_code }}<br>
+                <strong>Cantidad:</strong> {{ item.quantity }}<br>
+            </li>
+        {% endfor %}
+    </ul>
+    <form method="POST" action="/jobs/update/{{ data.job_number }}">
+        <input type="text" id="amountInput" name="amount" placeholder="Valor a pagar (entero o decimal)">
+        <input type="hidden" name="payment_info" value="{{ data.payment_info }}">
+        <button type="submit">Pay</button>
+    </form>
+</body>
+</html>

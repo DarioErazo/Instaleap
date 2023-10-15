@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pago Exitoso</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            background-color: #f7f7f7;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+
+        h2 {
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Pago Exitoso</h1>
+        <h2>Detalles del pago:</h2>
+        <ul>
+            <li><strong>ID de Pago:</strong> {{ data.paymentInfo.payment.id }}</li>
+            <li><strong>Método de Pago:</strong> {{ data.paymentInfo.payment.method }}</li>
+            <li><strong>Valor del Pago:</strong> {{ data.paymentInfo.payment.value }}</li>
+            <li><strong>Estado del Pago:</strong> {{ data.paymentInfo.payment.paymentStatus }}</li>
+            <li><strong>Política de Bloqueo:</strong> {{ data.paymentInfo.payment.blockingPolicy }}</li>
+        </ul>
+        <h2>Precios:</h2>
+        <ul>
+            <li><strong>Subtotal:</strong> {{ data.paymentInfo.prices.subtotal }}</li>
+            <li><strong>Gastos de Envío:</strong> {{ data.paymentInfo.prices.shippingFee }}</li>
+            <li><strong>Descuentos:</strong> {{ data.paymentInfo.prices.discounts }}</li>
+            <li><strong>Impuestos:</strong> {{ data.paymentInfo.prices.taxes }}</li>
+            <li><strong>Valor del Pedido:</strong> {{ data.paymentInfo.prices.orderValue }}</li>
+        </ul>
+    </div>
+    <div style="text-align: center; margin-top: 20px;">
+        <button onclick="window.location.href='/'">Home</button>
+    </div>
+</body>
+</html>

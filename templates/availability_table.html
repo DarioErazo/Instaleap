@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tabla de Datos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            margin-top: 20px; /* Espacio desde la parte superior */
+            text-align: center; /* Centrar el contenido */
+        }
+
+        h1 {
+            font-size: 24px; /* Tamaño de letra más grande para el título */
+        }
+
+        table {
+            width: 70%; /* Ancho de la tabla reducido */
+            margin: 20px auto; /* Centrar la tabla horizontalmente y agregar espacio */
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tbody tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        button {
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Available Slots</h1> <!-- Título centrado y más grande -->
+        <table>
+            <thead>
+                <tr>
+                    <th>Store Name</th>
+                    <th>Description</th>
+                    <th>Operational Model</th>
+                    <th>Start Date</th>
+                    <th>Finish Date</th>
+                    <th>Expired</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in data %}
+                <tr>
+                    <td>{{ item["store"]["name"] }}</td>
+                    <td>{{ item["description"] }}</td>
+                    <td>{{ item["operational_model"] }}</td>
+                    <td>{{ item["from"] }}</td>
+                    <td>{{ item["to"] }}</td>
+                    <td>{{ item["expires_at"] }}</td>
+
+                    <!-- Agrega un botón que redirija a otra API con el contenido de la fila -->
+                    <td>
+                        <form action="/jobs" method="POST">
+                            <input type="hidden" name="slot_id" value="{{ item['id'] }}">
+                            <input type="hidden" name="client_id" value="{{ item['store']['id'] }}">
+                            <button type="submit">Use</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
