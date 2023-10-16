@@ -1,19 +1,77 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Lista de trabajos</title>
+    <title>Job created</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center; /* Centro horizontalmente */
+            align-items: flex-start; /* Mantén la alineación vertical arriba */
+            height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 400px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            background-color: #fff;
+            text-align: left;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center; /* Centrar horizontalmente */
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+
+        th {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+    </style>
 </head>
 <body>
-    <h1>Lista de trabajos</h1>
-    <table border="1">
-        <thead>
-            <tr>
-                <th>Job ID</th>
-                <th>Message</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
+    <div class="container">
+        <h1>Job created</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Job ID</th>
+                    <th>Message</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
                 <tr>
                     <td>{{ data.job_id }}</td>
                     <td>{{ data.message }}</td>
@@ -23,7 +81,8 @@
                         </form>
                     </td>
                 </tr>
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>

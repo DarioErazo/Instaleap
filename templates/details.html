@@ -2,40 +2,148 @@
 <html>
 <head>
     <title>Detalles del Trabajo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            background-color: #fff;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+
+        h2 {
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        p {
+            margin: 5px 0;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        ul li {
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #amountInput {
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            flex: 1;
+        }
+
+        #errorText {
+            color: red;
+            display: none;
+        }
+
+        #inputContainer {
+            display: flex;
+            align-items: center;
+        }
+
+        #submitButton {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-left: 10px;
+        }
+
+        #submitButton:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
-    <h1>Detalles del Trabajo</h1>
-    
-    <h2>Información General</h2>
-    <p><strong>Cliente ID:</strong> {{ data.client_id }}</p>
-    <p><strong>Fecha de Creación:</strong> {{ data.created_at }}</p>
-    <p><strong>Estado:</strong> {{ data.state }}</p>
-    
-    <h2>Recogida y Entrega</h2>
-    <p><strong>Recogido con:</strong> {{ data.collect_with.method }} ({{ data.collect_with.payment.amount }} {{ data.collect_with.payment.currency }})</p>
-    <p><strong>Inicio:</strong> {{ data.start_time }}</p>
-    <p><strong>Fin:</strong> {{ data.end_time }}</p>
-    
-    <h2>Destino</h2>
-    <p><strong>Dirección:</strong> {{ data.destination.address }}</p>
-    <p><strong>Coordenadas:</strong> Lat: {{ data.destination.coordinates.lat }}, Lng: {{ data.destination.coordinates.lng }}</p>
+    <div class="container">
+        <h1>Job details</h1>
+        
+        <h2>General Information</h2>
+        <p><strong>Client ID:</strong> {{ data.client_id }}</p>
+        <p><strong>Created at:</strong> {{ data.created_at }}</p>
+        <p><strong>State:</strong> {{ data.state }}</p>
+        
+        <h2>Payment and date</h2>
+        <p><strong>Payment:</strong> {{ data.collect_with.method }} ({{ data.collect_with.payment.amount }} {{ data.collect_with.payment.currency }})</p>
+        <p><strong>Start time:</strong> {{ data.start_time }}</p>
+        <p><strong>End time:</strong> {{ data.end_time }}</p>
+        
+        <h2>Destino</h2>
+        <p><strong>Address:</strong> {{ data.destination.address }}</p>
+        <p><strong>Coordinates:</strong> Lat: {{ data.destination.coordinates.lat }}, Lng: {{ data.destination.coordinates.lng }}</p>
 
-    <h2>Productos</h2>
-    <p><strong>Cantidad de Productos:</strong> {{ data.total_items }}</p>
-    <ul>
-        {% for item in items %}
-            <li>
-                <strong>Nombre:</strong> {{ item.name }}<br>
-                <strong>Categoría:</strong> {{ item.attributes.category }}<br>
-                <strong>Precio Unitario:</strong> {{ item.presentation.price.amount }} {{ item.presentation.price.currency_code }}<br>
-                <strong>Cantidad:</strong> {{ item.quantity }}<br>
-            </li>
-        {% endfor %}
-    </ul>
-    <form method="POST" action="/jobs/update/{{ data.job_number }}">
-        <input type="text" id="amountInput" name="amount" placeholder="Valor a pagar (entero o decimal)">
-        <input type="hidden" name="payment_info" value="{{ data.payment_info }}">
-        <button type="submit">Pay</button>
-    </form>
+        <h2>Productos</h2>
+        <p><strong>Quantity items :</strong> {{ data.total_items }}</p>
+        <ul>
+            {% for item in items %}
+                <li>
+                    <strong>Name:</strong> {{ item.name }}<br>
+                    <strong>Category:</strong> {{ item.attributes.category }}<br>
+                    <strong>Unit price:</strong> {{ item.presentation.price.amount }} {{ item.presentation.price.currency_code }}<br>
+                    <strong>Quantity:</strong> {{ item.quantity }}<br>
+                </li>
+            {% endfor %}
+        </ul>
+        <form method="POST" action="/jobs/update/{{ data.job_number }}">
+            <div id="inputContainer">
+                <input type="text" id="amountInput" name="amount" placeholder="Pay value (number)" required>
+                <div id="errorText">Please, enter value</div>
+                <button type="submit" id="submitButton" disabled>Pay</button>
+            </div>
+            <input type="hidden" name="payment_info" value="{{ data.payment_info }}">
+        </form>
+    </div>
+    <script>
+        const amountInput = document.getElementById("amountInput");
+        const submitButton = document.getElementById("submitButton");
+        const errorText = document.getElementById("errorText");
+
+        amountInput.addEventListener("input", function() {
+            if (amountInput.validity.valid) {
+                submitButton.removeAttribute("disabled");
+                errorText.style.display = "none";
+            } else {
+                submitButton.setAttribute("disabled", true);
+                errorText.style.display = "block";
+            }
+        });
+    </script>
 </body>
 </html>
