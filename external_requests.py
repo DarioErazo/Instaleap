@@ -10,6 +10,7 @@ from constants import (
     SLOT_PAYLOAD, 
     APY_KEY
 )
+from utils import make_body
 
 API_TOKEN_KEY = os.environ.get(APY_KEY)
 
@@ -95,16 +96,6 @@ def details_job(id: str) -> Dict:
     except Exception as err:
         print(f"Error desconocido: {err}")
 
-
-#TODO: LLEVAR A UN ARCHIVO DE UTILS
-def make_body(amount: str, job_data: str) -> Tuple[Dict, str]:
-    """Build json to update pyment Job"""
-    data = job_data.replace("'", '"').replace("None", '"None"')
-    json_data = json.loads(data)
-    job_id = json_data.pop("id")
-    json_data.pop("invoice")
-    json_data["payment"]["value"] = int(amount)
-    return job_id, json_data
 
 def update_job(payload: str, new_amount: int) -> Dict:
     """Update payment Job"""

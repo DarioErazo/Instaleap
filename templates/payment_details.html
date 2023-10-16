@@ -53,22 +53,22 @@
 </head>
 <body>
     <div class="container">
-        <h1>Pago Exitoso</h1>
-        <h2>Detalles del pago:</h2>
+        <h1>Updated information</h1>
+        <h2>Payment details:</h2>
         <ul>
-            <li><strong>ID de Pago:</strong> {{ data.paymentInfo.payment.id }}</li>
-            <li><strong>Método de Pago:</strong> {{ data.paymentInfo.payment.method }}</li>
-            <li><strong>Valor del Pago:</strong> {{ data.paymentInfo.payment.value }}</li>
-            <li><strong>Estado del Pago:</strong> {{ data.paymentInfo.payment.paymentStatus }}</li>
-            <li><strong>Política de Bloqueo:</strong> {{ data.paymentInfo.payment.blockingPolicy }}</li>
+            <li><strong>Payment ID:</strong> {{ data.paymentInfo.payment.id }}</li>
+            <li><strong>Payment method:</strong> {{ data.paymentInfo.payment.method }}</li>
+            <li><strong>Payment value:</strong> {{ data.paymentInfo.payment.value }}</li>
+            <li><strong>Payment status:</strong> {{ data.paymentInfo.payment.paymentStatus }}</li>
+            <li><strong>Blocking policy:</strong> {{ data.paymentInfo.payment.blockingPolicy }}</li>
         </ul>
         <h2>Precios:</h2>
         <ul>
             <li><strong>Subtotal:</strong> {{ data.paymentInfo.prices.subtotal }}</li>
-            <li><strong>Gastos de Envío:</strong> {{ data.paymentInfo.prices.shippingFee }}</li>
-            <li><strong>Descuentos:</strong> {{ data.paymentInfo.prices.discounts }}</li>
-            <li><strong>Impuestos:</strong> {{ data.paymentInfo.prices.taxes }}</li>
-            <li><strong>Valor del Pedido:</strong> {{ data.paymentInfo.prices.orderValue }}</li>
+            <li><strong>Shipping price:</strong> {{ data.paymentInfo.prices.shippingFee }}</li>
+            <li><strong>Discounts:</strong> {{ data.paymentInfo.prices.discounts }}</li>
+            <li><strong>Taxes:</strong> {{ data.paymentInfo.prices.taxes }}</li>
+            <li><strong>Order value:</strong> {{ data.paymentInfo.prices.orderValue }}</li>
         </ul>
     </div>
     <div style="text-align: center; margin-top: 20px;">
